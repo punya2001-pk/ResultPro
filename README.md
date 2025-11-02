@@ -20,8 +20,8 @@ Make sure you have the following installed:
 1. **Clone the repository**
 
 ```bash
-git clone <your-repo-url>
-cd <your-project-folder>
+git clone https://github.com/punya2001-pk/ResultPro.git
+cd ResultPro
 ```
 
 2. **Install Node modules**
