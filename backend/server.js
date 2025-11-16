@@ -6,7 +6,7 @@ require("dotenv").config();
 
 const app = express();
 
-//
+
 // ===== Import Route Files =====
 const authRoutes = require("./routes/auth");
 const studentsRoutes = require("./routes/students");
@@ -68,4 +68,5 @@ app.use((err, req, res, next) => {
   console.error("❌ Server error:", err.stack);
   res.status(500).json({ success: false, message: "Internal Server Error" });
 });
+
 
