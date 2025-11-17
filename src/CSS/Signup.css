@@ -1,0 +1,137 @@
+/* ===== Navbar ===== */
+.navbar {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: #ffffff;
+  padding: 15px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.navbar .logo {
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+
+/* ===== Page Container ===== */
+.login-page {
+  min-height: 100vh;
+  background-color: #f5f6fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 15px;
+}
+
+.login-container {
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  margin-top: 30px;
+}
+
+.login-container h2 {
+  text-align: center;
+  color: #004aad;
+  margin-bottom: 25px;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ===== Form Rows ===== */
+.form-row {
+  margin-bottom: 20px;
+}
+
+.form-row label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: block;
+  color: #333;
+}
+
+.form-row input[type="text"],
+.form-row input[type="password"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 0.95rem;
+  transition: 0.3s;
+}
+
+.form-row input[type="text"]:focus,
+.form-row input[type="password"]:focus {
+  border-color: #004aad;
+  box-shadow: 0 0 5px rgba(0, 74, 173, 0.3);
+}
+
+/* ===== Remember & Forgot ===== */
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.remember-me input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.forgot-btn {
+  background: none;
+  border: none;
+  color: #004aad;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.forgot-btn:hover {
+  text-decoration: underline;
+}
+
+/* ===== Buttons ===== */
+.button-group button {
+  width: 100%;
+  padding: 10px;
+  background-color: #004aad;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.button-group button:hover {
+  background-color: #003080;
+}
+
+/* ===== Signup Redirect ===== */
+.signup-redirect {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.signup-redirect .signup-btn {
+  background: none;
+  border: none;
+  color: #004aad;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.signup-redirect .signup-btn:hover {
+  text-decoration: underline;
+}
