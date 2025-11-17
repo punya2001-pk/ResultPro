@@ -11,6 +11,7 @@ function AdminDashboard({ username, handleLogout }) {
   const [selectedCourse, setSelectedCourse] = useState("");
   const [studentsList, setStudentsList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [courseList, setCourseList] = useState([]);
   const navigate = useNavigate();
 
   // ===== Data =====
@@ -38,21 +39,41 @@ function AdminDashboard({ username, handleLogout }) {
   const levels = ["Level 1", "Level 2", "Level 3", "Level 4"];
   const semesters = ["Semester 1", "Semester 2"];
 
-  const courses = {
-    "Department of Physical": ["PHY101", "PHY102"],
-    "Department of Biological": ["BIO101", "BIO102"],
-    "Department of Management": ["MGT101", "MGT102"],
-    "Department of Finance": ["FIN101", "FIN102"],
-    "Department of Engineering": ["ENG101", "ENG102"],
-    "Department of IT": ["IT101", "IT102"],
-  };
-
   const [overviewStats, setOverviewStats] = useState({
   totalStudents: 0,
   totalCourses: 0,
   totalResults: 0,
   averageCGPA: 0,
   });
+
+
+
+  useEffect(() => {
+    if (
+      activeTab === "Results" &&
+      selectedFaculty &&
+      selectedDepartment &&
+      selectedLevel &&
+      selectedSemester
+    ) {
+      fetch(
+        `http://localhost:5000/api/courses?faculty=${selectedFaculty}&department=${selectedDepartment}&level=${selectedLevel}&semester=${selectedSemester}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) setCourseList(data.courses || []);
+          else setCourseList([]);
+        })
+        .catch((err) => {
+          console.error("Error fetching courses:", err);
+          setCourseList([]);
+        });
+    } else {
+      setCourseList([]);
+    }
+  }, [activeTab, selectedFaculty, selectedDepartment, selectedLevel, selectedSemester]);
+
+
 
   // overview
   useEffect(() => {
@@ -104,18 +125,32 @@ function AdminDashboard({ username, handleLogout }) {
     setStudentsList([]);
   };
 
-  const handleCourseSelect = (courseId) => {
-    setSelectedCourse(courseId);
-    navigate("/resultDetails", {
+  const handleCourseSelect = (courseCode) => {
+    setSelectedCourse(courseCode);
+    navigate("/courseDetails", {
       state: {
         faculty: selectedFaculty,
         department: selectedDepartment,
         level: selectedLevel,
         semester: selectedSemester,
-        courseId,
+        courseCode,
       },
     });
   };
+
+  const handleResultCourseSelect = (courseCode) => {
+  setSelectedCourse(courseCode);
+  navigate("/resultDetails", {
+    state: {
+      faculty: selectedFaculty,
+      department: selectedDepartment,
+      level: selectedLevel,
+      semester: selectedSemester,
+      courseId: courseCode,
+    },
+  });
+};
+
 
   const handleLevelSelectCourses = (level) => {
     setSelectedLevel(level);
@@ -361,8 +396,10 @@ function AdminDashboard({ username, handleLogout }) {
         )}
 
         {/* ===== Results Tab ===== */}
+        
         {activeTab === "Results" && (
           <div className="dropdown-section">
+            {/* Faculty */}
             <div className="dropdown">
               <label>Select Faculty:</label>
               <select
@@ -371,18 +408,18 @@ function AdminDashboard({ username, handleLogout }) {
                   setSelectedFaculty(e.target.value);
                   setSelectedDepartment("");
                   setSelectedLevel("");
+                  setSelectedSemester("");
                   setSelectedCourse("");
                 }}
               >
                 <option value="">-- Select Faculty --</option>
                 {faculties.map((f) => (
-                  <option key={f} value={f}>
-                    {f}
-                  </option>
+                  <option key={f} value={f}>{f}</option>
                 ))}
               </select>
             </div>
 
+            {/* Department */}
             {selectedFaculty && (
               <div className="dropdown" style={{ marginTop: "20px" }}>
                 <label>Select Department:</label>
@@ -391,19 +428,19 @@ function AdminDashboard({ username, handleLogout }) {
                   onChange={(e) => {
                     setSelectedDepartment(e.target.value);
                     setSelectedLevel("");
+                    setSelectedSemester("");
                     setSelectedCourse("");
                   }}
                 >
                   <option value="">-- Select Department --</option>
                   {facultyDepartments[selectedFaculty].map((d) => (
-                    <option key={d} value={d}>
-                      {d}
-                    </option>
+                    <option key={d} value={d}>{d}</option>
                   ))}
                 </select>
               </div>
             )}
 
+            {/* Level */}
             {selectedDepartment && (
               <div className="dropdown" style={{ marginTop: "20px" }}>
                 <label>Select Level:</label>
@@ -411,37 +448,62 @@ function AdminDashboard({ username, handleLogout }) {
                   value={selectedLevel}
                   onChange={(e) => {
                     setSelectedLevel(e.target.value);
+                    setSelectedSemester("");
                     setSelectedCourse("");
                   }}
                 >
                   <option value="">-- Select Level --</option>
                   {levels.map((l) => (
-                    <option key={l} value={l}>
-                      {l}
-                    </option>
+                    <option key={l} value={l}>{l}</option>
                   ))}
                 </select>
               </div>
             )}
 
+            {/* Semester (NEW) */}
             {selectedLevel && (
               <div className="dropdown" style={{ marginTop: "20px" }}>
-                <label>Select Course ID:</label>
+                <label>Select Semester:</label>
+                <select
+                  value={selectedSemester}
+                  onChange={(e) => {
+                    setSelectedSemester(e.target.value);
+                    setSelectedCourse("");
+                  }}
+                >
+                  <option value="">-- Select Semester --</option>
+                  {semesters.map((s) => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {/* Course */}
+            {selectedSemester && (
+              <div className="dropdown" style={{ marginTop: "20px" }}>
+                <label>Select Course Code:</label>
                 <select
                   value={selectedCourse}
-                  onChange={(e) => handleCourseSelect(e.target.value)}
+                  onChange={(e) => handleResultCourseSelect(e.target.value)}
                 >
                   <option value="">-- Select Course --</option>
-                  {courses[selectedDepartment]?.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
+                  {courseList.length === 0 ? (
+                    <option value="" disabled>No courses found</option>
+                  ) : (
+                    courseList.map((course) => (
+                      <option key={course._id} value={course.courseCode}>
+                        {course.courseCode} - {course.courseName}
+                      </option>
+                    ))
+                  )}
                 </select>
               </div>
             )}
           </div>
         )}
+
+
       </div>
     </div>
   );
