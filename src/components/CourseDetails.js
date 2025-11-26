@@ -4,6 +4,7 @@ import axios from "axios";
 import Papa from "papaparse";
 import "../CSS/CourseDetails.css";
 
+
 function CourseDetails() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ function CourseDetails() {
         const res = await axios.get("http://localhost:5000/api/courses", {
           params: { faculty, department, level, semester },
         });
-        setCourses(res.data || []);
+        setCourses(res.data.courses || []);
       } catch (err) {
         console.error("Error fetching courses:", err);
         alert("❌ Failed to fetch courses.");
@@ -66,6 +67,7 @@ function CourseDetails() {
       console.error(err);
       alert("❌ Failed to add course.");
     }
+
   };
 
   // ✅ Bulk CSV upload
