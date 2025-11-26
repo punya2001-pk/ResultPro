@@ -227,14 +227,14 @@ function AdminDashboard({ username, handleLogout }) {
               <div className="icon">📊</div>
               <div>
                 <h3>Total Results</h3>
-                <p>38</p>
+                <p>{overviewStats.totalResults}</p>
               </div>
             </div>
             <div className="card orange">
               <div className="icon">📄</div>
               <div>
                 <h3>Average CGPA</h3>
-                <p>1.49</p>
+                <p>{overviewStats.averageCGPA}</p>
               </div>
             </div>
           </div>
