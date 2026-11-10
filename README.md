@@ -75,19 +75,6 @@ cd backend
 npm install
 ⚠️ Important Configuration: You must create a .env file in the backend directory with the following details before running the server:
 
-Code snippet
-
-PORT=5000
-MONGO_URI=mongodb://127.0.0.1:27017/ursdb
-CLIENT_URL=http://localhost:3000
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USER=resultprouov@gmail.com
-EMAIL_PASS=Pass_Key_Of_The_Email
-OTP_EXPIRE_MIN=5
-FRONTEND_URL=http://localhost:3000
-(Note: Replace Pass_Key_Of_The_Email with your actual App Password)
-
 Start the backend server:
 
 npm start
